@@ -66,22 +66,30 @@ const sendEmail = async (email) => {
   console.log(res);
 };
 
-cron.schedule("0 45 16 * * 1-5", async () => {
-  for (email of emails) {
-    try {
-      const res = await sendEmail(email);
-      console.log(`Email sent to ${email}:`);
-    } catch (error) {
-      console.error(`Failed to send email to ${email}:`, error);
+cron.schedule(
+  "0 15 17 * * 1-5",
+  async () => {
+    for (email of emails) {
+      try {
+        const res = await sendEmail(email);
+        console.log(`Email sent to ${email}:`);
+      } catch (error) {
+        console.error(`Failed to send email to ${email}:`, error);
+      }
     }
+  },
+  {
+    timezone: "Asia/Kolkata",
   }
-});
+);
 
 setInterval(() => {
   const date = new Date();
-  const dateAndTime = date.getHours() + ":" + date.getMinutes();
+  const dateAndTime = date.toLocaleString("en-IN", {
+    timeZone: "Asia/Kolkata",
+  });
   console.log(dateAndTime);
-}, 5000);
+}, 1000);
 
 app.listen(PORT, () => {
   console.log(`🚀 Server is running on port ${PORT}`.blue.underline);
