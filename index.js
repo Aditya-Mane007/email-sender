@@ -9,7 +9,19 @@ const nodemailer = require("nodemailer");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const emails = ["thingsrandom966@gmail.com", "maneaditya006@gmail.com"];
+const emails = [
+  "hr@promodome.in",
+  "hire-me@gophygital.io",
+  "info@graymatrix.com",
+  "contact@amagi.io",
+  "info@insigniacom.com",
+  "mumbai@inkincaps.com",
+  "hr@bondsindia.com",
+  "careers@locobuzz.com",
+  "careers@fabstudio.co",
+  "info@qpsit.com",
+  "info@parashifttech.com",
+];
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -62,12 +74,10 @@ const sendEmail = async (email) => {
       contentType: "application/pdf",
     },
   });
-
-  console.log(res);
 };
 
 cron.schedule(
-  "0 15 17 * * 1-5",
+  "0 0 10 * * 1-5",
   async () => {
     for (email of emails) {
       try {
@@ -82,14 +92,6 @@ cron.schedule(
     timezone: "Asia/Kolkata",
   }
 );
-
-setInterval(() => {
-  const date = new Date();
-  const dateAndTime = date.toLocaleString("en-IN", {
-    timeZone: "Asia/Kolkata",
-  });
-  console.log(dateAndTime);
-}, 1000);
 
 app.listen(PORT, () => {
   console.log(`🚀 Server is running on port ${PORT}`.blue.underline);
