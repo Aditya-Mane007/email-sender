@@ -21,6 +21,7 @@ const emails = [
   "careers@fabstudio.co",
   "info@qpsit.com",
   "info@parashifttech.com",
+  "Neha.Maria@crimsoni.com",
 ];
 
 const transporter = nodemailer.createTransport({
