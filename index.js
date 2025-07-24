@@ -66,11 +66,11 @@ const sendEmail = async (email) => {
   console.log(res);
 };
 
-cron.schedule("0 30 16 * * 1-5", async () => {
+cron.schedule("0 45 16 * * 1-5", async () => {
   for (email of emails) {
     try {
       const res = await sendEmail(email);
-      console.log(`Email sent to ${email}:`, res.response);
+      console.log(`Email sent to ${email}:`);
     } catch (error) {
       console.error(`Failed to send email to ${email}:`, error);
     }
