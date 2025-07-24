@@ -77,6 +77,12 @@ cron.schedule("0 45 16 * * 1-5", async () => {
   }
 });
 
+setInterval(() => {
+  const date = new Date();
+  const dateAndTime = date.getHours() + ":" + date.getMinutes();
+  console.log(dateAndTime);
+}, 5000);
+
 app.listen(PORT, () => {
   console.log(`🚀 Server is running on port ${PORT}`.blue.underline);
 });
