@@ -82,7 +82,7 @@ const sendEmail = async (email) => {
 };
 
 cron.schedule(
-  "0 0 15 * * 1-5",
+  "0 0 10 * * 1-5",
   async () => {
     for (let email of emails) {
       try {
