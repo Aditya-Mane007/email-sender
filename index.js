@@ -21,7 +21,7 @@ const emails = [
   "careers@fabstudio.co",
   "info@qpsit.com",
   "info@parashifttech.com",
-  "Neha.Maria@crimsoni.com",
+  "joinus@crimsoni.com",
   "maneaditya006@gmail.com",
   "thingsrandom966@gmail.com",
 ];
