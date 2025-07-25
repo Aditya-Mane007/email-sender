@@ -22,6 +22,8 @@ const emails = [
   "info@qpsit.com",
   "info@parashifttech.com",
   "Neha.Maria@crimsoni.com",
+  "maneaditya006@gmail.com",
+  "thingsrandom966@gmail.com",
 ];
 
 const transporter = nodemailer.createTransport({
@@ -69,23 +71,25 @@ const sendEmail = async (email) => {
     to: email,
     subject: "Application for React.js Developer / Frontend Developer Position",
     html: emailHtml,
-    attachments: {
-      filename: "ADITYA_MANE_RESUME",
-      path: path.join(__dirname, "public", "ADITYA_MANE_RESUME.pdf"),
-      contentType: "application/pdf",
-    },
+    attachments: [
+      {
+        filename: "ADITYA_MANE_RESUME",
+        path: path.join(__dirname, "public", "ADITYA_MANE_RESUME.pdf"),
+        contentType: "application/pdf",
+      },
+    ],
   });
 };
 
 cron.schedule(
-  "0 0 10 * * 1-5",
+  "0 0 15 * * 1-5",
   async () => {
-    for (email of emails) {
+    for (let email of emails) {
       try {
-        const res = await sendEmail(email);
-        console.log(`Email sent to ${email}:`);
+        await sendEmail(email);
+        console.log(`Email sent to ${email}`);
       } catch (error) {
-        console.error(`Failed to send email to ${email}:`, error);
+        console.error(`Failed to send email to ${email} :`, error);
       }
     }
   },
