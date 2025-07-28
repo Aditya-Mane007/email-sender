@@ -7,21 +7,21 @@ const path = require("path");
 const nodemailer = require("nodemailer");
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 
 const emails = [
-  "hr@promodome.in",
-  "hire-me@gophygital.io",
-  "info@graymatrix.com",
-  "contact@amagi.io",
-  "info@insigniacom.com",
-  "mumbai@inkincaps.com",
-  "hr@bondsindia.com",
-  "careers@locobuzz.com",
-  "careers@fabstudio.co",
-  "info@qpsit.com",
-  "info@parashifttech.com",
-  "joinus@crimsoni.com",
+  // "hr@promodome.in",
+  // "hire-me@gophygital.io",
+  // "info@graymatrix.com",
+  // "contact@amagi.io",
+  // "info@insigniacom.com",
+  // "mumbai@inkincaps.com",
+  // "hr@bondsindia.com",
+  // "careers@locobuzz.com",
+  // "careers@fabstudio.co",
+  // "info@qpsit.com",
+  // "info@parashifttech.com",
+  // "joinus@crimsoni.com",
   "maneaditya006@gmail.com",
   "thingsrandom966@gmail.com",
 ];
@@ -81,8 +81,14 @@ const sendEmail = async (email) => {
   });
 };
 
+app.get("/", (req, res) => {
+  return res.json({
+    message: "This email server for sending daily emails to recruiters.",
+  });
+});
+
 cron.schedule(
-  "0 0 10 * * 1-5",
+  "0 0 13 * * 1-5",
   async () => {
     for (let email of emails) {
       try {
