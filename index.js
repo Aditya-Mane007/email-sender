@@ -5,23 +5,29 @@ const colors = require("colors");
 const cron = require("node-cron");
 const path = require("path");
 const nodemailer = require("nodemailer");
+const cors = require("cors");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+app.use(cors());
+app.use(express.json());
+
 const emails = [
-  "hr@promodome.in",
-  "hire-me@gophygital.io",
-  "info@graymatrix.com",
-  "contact@amagi.io",
-  "info@insigniacom.com",
-  "mumbai@inkincaps.com",
-  "hr@bondsindia.com",
-  "careers@locobuzz.com",
-  "careers@fabstudio.co",
-  "info@qpsit.com",
-  "info@parashifttech.com",
-  "joinus@crimsoni.com",
+  // "hr@promodome.in",
+  // "hire-me@gophygital.io",
+  // "info@graymatrix.com",
+  // "contact@amagi.io",
+  // "info@insigniacom.com",
+  // "mumbai@inkincaps.com",
+  // "hr@bondsindia.com",
+  // "careers@locobuzz.com",
+  // "careers@fabstudio.co",
+  // "info@qpsit.com",
+  // "info@parashifttech.com",
+  // "joinus@crimsoni.com",
+  // "careers@digitaledgetech.in",
+  // "hrd@esoftech.com",
   "maneaditya006@gmail.com",
   "thingsrandom966@gmail.com",
 ];
@@ -87,23 +93,39 @@ app.get("/", (req, res) => {
   });
 });
 
-cron.schedule(
-  "0 0 13 * * 1-5",
-  async () => {
-    for (let email of emails) {
-      try {
-        await sendEmail(email);
-        console.log(`Email sent to ${email}`);
-      } catch (error) {
-        console.error(`Failed to send email to ${email} :`, error);
-      }
-    }
-  },
-  {
-    timezone: "Asia/Kolkata",
-  }
-);
+app.post("/sendEmail", async (req, res) => {
+  const sendResults = await Promise.all(
+    emails.map((email) =>
+      sendEmail(email).then(
+        () => ({ email, success: true }),
+        (error) => ({ email, success: false, error: error.message })
+      )
+    )
+  );
+
+  return res.status(200).json({
+    message: "Email sending complete.",
+    results: sendResults,
+  });
+});
 
 app.listen(PORT, () => {
-  console.log(`🚀 Server is running on port ${PORT}`.blue.underline);
+  console.log(`Server is running on port ${PORT}`.blue.underline);
 });
+
+// cron.schedule(
+//   "0 0 13 * * 1-5",
+//   async () => {
+//     for (let email of emails) {
+//       try {
+//         await sendEmail(email);
+//         console.log(`Email sent to ${email}`);
+//       } catch (error) {
+//         console.error(`Failed to send email to ${email} :`, error);
+//       }
+//     }
+//   },
+//   {
+//     timezone: "Asia/Kolkata",
+//   }
+// );
