@@ -93,39 +93,42 @@ app.get("/", (req, res) => {
   });
 });
 
-app.post("/sendEmail", async (req, res) => {
-  const sendResults = await Promise.all(
-    emails.map((email) =>
-      sendEmail(email).then(
-        () => ({ email, success: true }),
-        (error) => ({ email, success: false, error: error.message })
-      )
-    )
-  );
+cron.schedule(
+  "0 15 19 * * *",
+  async () => {
+    for (let email of emails) {
+      try {
+        await sendEmail(email);
+        console.log(`Email sent to ${email}`);
+      } catch (error) {
+        console.error(`Failed to send email to ${email} :`, error);
+      }
+    }
+  },
+  {
+    timezone: "Asia/Kolkata",
+  }
+);
 
-  return res.status(200).json({
-    message: "Email sending complete.",
-    results: sendResults,
+// Health Check
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    message: "Server is up and running",
   });
 });
+
+cron.schedule(
+  "10 * * * * *",
+  async () => {
+    const res = await fetch(process.env.APP_DOMAIN + "/health");
+    const data = await res.json();
+    console.log("Message From Server : ", data && data.message);
+  },
+  {
+    timezone: "Asia/Kolkata",
+  }
+);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`.blue.underline);
 });
-
-// cron.schedule(
-//   "0 0 13 * * 1-5",
-//   async () => {
-//     for (let email of emails) {
-//       try {
-//         await sendEmail(email);
-//         console.log(`Email sent to ${email}`);
-//       } catch (error) {
-//         console.error(`Failed to send email to ${email} :`, error);
-//       }
-//     }
-//   },
-//   {
-//     timezone: "Asia/Kolkata",
-//   }
-// );
