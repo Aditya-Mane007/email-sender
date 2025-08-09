@@ -94,7 +94,7 @@ app.get("/", (req, res) => {
 });
 
 cron.schedule(
-  "0 15 19 * * *",
+  "0 0 10 * * *",
   async () => {
     for (let email of emails) {
       try {
